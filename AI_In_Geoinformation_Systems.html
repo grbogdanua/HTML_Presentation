@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>AI in geoinformation systems</title>
+
+
+		<link rel='stylesheet' href='https://unpkg.com/css.gg@2.0.0/icons/css/facebook.css'>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+		<link rel="stylesheet" href="plugin/toolbar/toolbar.css">
+		<link rel="stylesheet" href="dist/myStyle.css"> 
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background-video="pics/startVideo.mp4" data-background-video-loop="true" style="margin-top: -80px;" data-autoslide="10000" data-background-video-muted>
+					<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 70vh;">
+						<div style="display: flex;">
+						</div>
+						<a href="https://ai.ksu24.kspu.edu/" style="margin-top: 20px;">
+							<h1 style="color: white; font-size: 80px;"><strong>Use of AI in geoinformation systems</strong></h1>
+						</a>
+						<p style="color: rgb(115, 222, 255); margin-top: 10px;">Kherson State University</p>
+					  </div>
+					  <div style="display: flex; justify-content: space-between; font-size: 18px; height: 15vh;">
+					  	<div>Bogdan Grabovskiy</div>
+					  </div>
+					  <div style="width: 100%; text-align: center;">
+						<div class="footer" style="padding: 10px; font-size: 15px; color: beige;">
+							<p>2024 © Kherson State University </p>
+						</div>
+					</div>															
+				</section>
+
+				<section data-menu-title="Our team" data-transition="convex-in concave-out" data-auto-animate>
+					<h3>Our team</h3>
+					<div class="team-container">
+						<div class="team-row">
+							<div class="team-member">
+								<img src="pics/Grabovskiy.jpg" alt="Member 1">
+								<div class="name">B. A. Grabovskiy</div>
+								<div class="position" style="height: 5vh;">Developer</div>
+							</div>
+							<div class="team-member">
+								<img src="pics/Vinnyk.jpg" alt="Member 2">
+								<div class="name">M. O. Vinnyk</div>
+								<div class="position" style="height: 5vh;">Supervisor</div>
+								<div class="social-icons">
+									<a href="https://www.facebook.com/profile.php?id=100049291414309" class="icon"><i class="gg-facebook"></i></a>
+									<a href="https://www.linkedin.com/in/maksym-vinnyk-28853369/" class="icon"><i class="fa fa-linkedin-square"style="font-size:24px"></i></a>
+								</div>
+							</div>
+						</div>
+				</section>
+				<section data-background="rgb(236,240,241)" data-transition="convex-in concave-out" data-auto-animate data-menu-title="Introduction">
+					<h4>Introduction</h4>
+					<p style="font-size: 20px; text-align: justify;">The goal of our project is to develop a methodology for creating system of automatic collection of geospatial data using the example of a fire detection system.</p>
+					<p style="font-size: 20px; text-align: justify;">It will solve the following tasks:</p>
+					<ul style="font-size: 20px; display: list-item;">
+						<li>Automation of spatial data collection;</li>
+						<li>Calculation of object coordinates;</li>
+					</ul>
+				</section>	
+                <section data-menu-title="Object detection Machine Learning">
+					<h4>Object detection algorithms</h4>
+					<p>During the study, several detection algorithms were considered:</p>
+					<ul style="font-size: 20px; text-align: justify;">
+						<li>Faster R-CNN (Region-based Convolutional Neural Networks).</li>
+						<li>SSD (Single Shot MultiBox Detector).</li>
+						<li>Mask R-CNN.</li>
+						<li>RetinaNet.</li>
+						<li>YOLO (You Only Look Once).</li>
+					</ul>
+				</section>
+				<section data-background="rgb(236,240,241)" data-transition="convex-in concave-out" data-auto-animate data-menu-title="YOLO">
+					<h4>Why YOLO?</h4>
+					<p style="font-size: 20px; text-align: justify;">
+						There are reasons why the YOLO algorithm was chosen for this project:
+					</p>
+						<ul style="font-size: 20px; text-align: left;">
+							<li>The main difference between YOLO and other methods is that it performs object detection of the entire image at once. This allows you to get the result quickly and efficiently, without the need to re-process the image.</li>
+							<li>The algorithm is easy to teach to detect special objects.</li>
+							<li>A model of this type is easy to adjust to the calculating capacities of the unit</li>
+						</ul>
+				</section>
+				<section data-background="rgb(236,240,241)" data-transition="convex-in concave-out" data-auto-animate  data-menu-title="The program algorithm">
+					<p style="font-size: 35px;">The program algorithm</p>
+					<img src="pics/Activity3_Activity_diagram.png">
+					</ul>			
+				</section>
+				<section data-background="rgb(236,240,241)">
+					<section data-background="black" data-menu-title="Main cycle">
+						<h4 style="font-size: 18px; color: whitesmoke;">Main cycle</h4>
+					<pre><code style="font-size: 14px; line-height: 1; max-height: 700px;">
+while ret :
+	ret, img = cap.read()
+	if ret == False:
+		break
+	results = model(img, stream = True)
+	Detected = np.empty((0,5))
+	for r in results:
+		boxes = r.boxes
+		for box in boxes:
+			SmokeImgCoord =None
+			score = box.conf[0]
+			if score>0.6:
+				x1,y1,x2,y2 = box.xyxy[0]
+				x1,y1,x2,y2 = int(x1),int(y1),int(x2),int(y2)
+
+				Detected=np.vstack((np.array([x1,y1,x2,y2,score]),Detected))
+		
+				SmokeimgCoord = [int(x1 +(x2-x1)/2),int(y2)]
+				Size = img.shape
+		
+				cv2.rectangle(img,(x1,y1),(x2,y2),(255,0,255),3)
+
+				line = CoordCalk.LineCalculation(SmokeimgCoord,DroneCoord,DroneCameraOrient,CameraAngle,Size)
+
+				Coord = line.Coord(20)
+
+				if y1<30:
+					textCoord = (x1,30)
+				else:
+					textCoord = (x1,y1)
+
+				cv2.putText(img,(str(int(score.item()*10)/10) + ' coord: ' + str(Coord[0]) + ' ' + str(Coord[1])),textCoord,font,1,(255,0,0),2,cv2.LINE_4)
+	cv2.putText(img,(str(int(DroneCoord[0])) + ' ' + str(int(DroneCoord[1]*100)/100) + ' ' + str(int(DroneCoord[2]))),(10,50),font,1,(255,0,0),2,cv2.LINE_4)
+
+	Indecsated = Lap_tracker.update(Detected)
+
+	for result in Indecsated:
+		x1,y1,x2,y2,id=result
+		if id in Detected_Laps.keys():
+			Detected_Laps[id].append([x1,y1,x2,y2,ImageCount])
+		else:
+			Detected_Laps[id] = [[x1,y1,x2,y2,ImageCount]]
+
+						</code></pre>
+					</section>
+						<section data-background="rgb(236,240,241)" data-transition="convex-in concave-out" data-auto-animate data-menu-title="A fragment of the RDF model of Educational Management">
+							<h4>Coordinate calculation</h4>
+							<pre><code style="font-size: 14px; line-height: 1; max-height: 700px;">
+def RightVectorCalculate(vector):
+	if vector[0]==0:
+		y = 0
+		if vector[1]==0 or vector[1]<0:
+			x = 1
+		elif vector[1]>0:
+			x = -1
+	elif vector[0]>0:
+		y = math.sqrt(1/(1+pow((-1)*vector[1]/vector[0],2)))
+		x = -1*(y*vector[1]/vector[0])
+	elif vector[0]<0:
+		y = -1*math.sqrt(1/(1+pow((-1)*vector[1]/vector[0],2)))
+		x = -1*(y*vector[1]/vector[0])
+
+	return([x,y,0])
+
+
+def UpVectorCalculate(vector1,vector2):
+	x = None
+	y = None
+	z = None
+
+	if vector2[0]!=0:
+		z = math.sqrt(1/(1+pow(vector1[2]/((vector1[0]*vector2[1]/vector2[0])-vector1[1]),2)+pow((vector2[1]*vector1[2])/((vector1[1]*vector2[0])-(vector1[0]*vector2[1])),2)))
+		y = (vector1[2]*z)/((vector1[0]*vector2[1]/vector2[0])-vector1[1])
+		x = (vector2[1]*vector1[2]*z)/((vector1[1]*vector2[0])-(vector1[0]*vector2[1]))
+	else:
+		y = 0
+		if vector1[0]!=0:
+			z = math.sqrt(1/(1+(-1*vector1[2]/vector1[0])^2.0))
+			x = -1*vector1[2]/vector1[0]*z
+		else:
+			z = 0
+			x = 1
+
+	return([x,y,z])
+
+
+def VectorFromAngle(pitch,yaw):
+	x = None
+	y = None
+	z = None
+	z = math.sin(pitch)
+	x = math.cos(yaw)*math.cos(pitch)
+	y = math.sin(yaw)*math.cos(pitch)
+
+	return([x,y,z])
+
+
+def ChangeBasis(Vector,upVector,forvardVector,rightVector):
+	x = None
+	y = None
+	z = None
+
+	z = Vector[0]*forvardVector[2] + Vector[1]*rightVector[2] + Vector[2]*upVector[2]
+	y = Vector[0]*forvardVector[1] + Vector[1]*rightVector[1] + Vector[2]*upVector[1]
+	x = Vector[0]*forvardVector[0] + Vector[1]*rightVector[0] + Vector[2]*upVector[0]
+
+	return([x,y,z])
+
+
+def LineCalculation(pilarImgCoord,droneCoord,droneCameraOrient,cameraAngle,imgShape):
+	forvardVector = VectorFromAngle(droneCameraOrient[0],droneCameraOrient[1])
+	rightVector = RightVectorCalculate(forvardVector)
+	upVector = UpVectorCalculate(forvardVector,rightVector)
+
+	X= pilarImgCoord[0]/imgShape[1]-0.5
+	Y= -1*(pilarImgCoord[1]/imgShape[1]-0.5)
+	objectVectorCam = VectorFromAngle(Y*cameraAngle,X*cameraAngle)
+
+	objectVector = ChangeBasis(objectVectorCam,upVector,forvardVector,rightVector)
+
+	return(Line(droneCoord,objectVector))
+
+
+
+							</code></pre>
+						</section>
+				</section>
+				<section data-background="rgb(236,240,241)" data-menu-title="Virtual environment">
+					<h4>Virtual environment</h4>
+						<div style="margin-right: 20px;">
+							<img src="pics/VirtEnv.png" style="height: 350px; margin-bottom: 1px;">
+						</div>
+					<p style="font-size: 19px; text-align: justify;">Due to the lack of opportunity to use the system in war conditions. A virtual environment based on Unreal Engine was created for testing.</p>
+				</section>
+				<section data-background-video="pics/ResultVideo.mp4" data-background-video-loop="true" style="margin-top: -80px;" data-autoslide="10000" data-background-video-muted>
+																		
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+
+			// Also available as an ES module, see:
+			// https://revealjs.com/initialization/
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight ]
+			});
+
+		</script>
+
+	</body>
+</html>
